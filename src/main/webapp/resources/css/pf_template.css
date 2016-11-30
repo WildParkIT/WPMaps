@@ -1,0 +1,48 @@
+body{
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.pageContent{
+    width: 100%;
+    min-height: 100%;
+}
+.ui-widget-content.pageContent {
+    border:0px;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+.ui-panel.pageContent .ui-panel-content.pageContent{
+    padding: 0px;
+}
+
+.loginPanel{
+    position: fixed;
+    top: calc( 50% - 100px);
+    left: calc( 50% - 170px );
+}
+
+.mainMenuPanel{
+    position:fixed;
+    top:0px;
+    right: 0px;
+    width: 350px;
+    background: transparent;
+}
+
+.ui-widget-content.mainMenuPanel{
+    padding: 0px;
+}
+
+.ui-panel.mainMenuPanel .ui-widget-content.mainMenuPanel{
+    padding: 0px;
+}
+
+.ui-widget-content.mainMenuPanel {
+    border:0px;
+    border-radius: 0px;
+    padding: 0px;
+}
