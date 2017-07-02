@@ -2,17 +2,205 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>WP Maps</title>
         <h:outputStylesheet library="css" name="pf_template.css" />
         <script src = "http://maps.google.com/maps/api/js?key=AIzaSyDzwk44zfDh3JQSN1ooK-SIXzvODeFo_dc"
                 type = "text/javascript" />
+                
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 25px;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
     </h:head>
     <h:body>
-        <p:growl autoUpdate="true" />
-        <p:gmap center="46.968687,31.9790294" zoom="17" type="terrain" model="#{gMapsController.homeModel}"                 
-                style="width: 100vw;height: 100vh;" />
+    <h:form id="form" prependId="false">
+        <p:gmap id ="gmap" center="46.968687,31.9790294" zoom="17" type="terrain" model="#{gMapsController.model}"                 
+                style="width: 100vw;height: 100vh;" onPointClick="handlePointClick(event);" widgetVar="map">
+            
+            <p:ajax event="overlaySelect" listener="#{gMapsController.onMarkerSelect}" />
+
+            <p:gmapInfoWindow id="infoWindow">
+                <p:outputPanel style="text-align: center; display: block; margin: auto">
+                   
+                    <h:panelGrid columns="1" >
+                        <p:row>
+                            <h:graphicImage url="../resources/pillar_demo_img/pillar.jpg" height="300px" width="300px" />
+                        </p:row>                     
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" >
+                        <p:row>
+                            <h:outputLabel for="station" value="Транспортная подстанция:" />
+                        </p:row>
+                        <p:row>                            
+                            <p:inplace id="station" editor="true">
+                                <p:inputText value="#{gMapsController.transportStation}" required="true" label="text" />
+                            </p:inplace>                            
+                        </p:row>
+                        <p:row>
+                            <h:outputLabel for="stationNumber" value="Номер подстанции:" />
+                        </p:row>
+                        <p:row>
+                            <p:inplace id="stationNumber" editor="true">
+                                <p:inputText value="#{gMapsController.numberStation}" required="true" label="text" />
+                            </p:inplace>                             
+                        </p:row>        
+                        <p:row>
+                            <h:outputLabel for="stationOwner" value="Балансодержатель опоры:" />
+                        </p:row>
+                        <p:row>
+                            <p:inplace id="stationOwner" editor="true">
+                                <p:inputText value="#{gMapsController.selectedPillar.owner.ownerType}" required="true" label="text" />
+                            </p:inplace>                               
+                        </p:row>
+                        <p:row>
+                            <h:outputLabel for="stationMatheriall" value="Материал столба:" />
+                        </p:row>
+                        <p:row>
+                            <p:inplace id="stationMatheriall" editor="true">
+                                <p:inputText value="#{gMapsController.selectedPillar.matheriallPillar.pillarMaterial}" required="true" label="text" />
+                            </p:inplace>                            
+                        </p:row>                                           
+                        <p:row>
+                            <h:outputLabel for="stationType" value="Тип столба:" />
+                        </p:row>
+                        <p:row>
+                            <p:inplace id="stationType" editor="true">
+                                <p:inputText value="#{gMapsController.selectedPillar.type.pilarType}" required="true" label="text" />
+                            </p:inplace>                                                        
+                        </p:row>   
+                        <p:row>
+                            <p:column>Запас кабеля</p:column>
+                        </p:row> 
+                        <p:row>
+                            <p:column>221м</p:column>
+                        </p:row>           
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" >
+                        <p:commandButton value="Редактировать" actionListener="#{gMapsController.changePillar}" update="gmap">                        
+                            <p:confirm header="Уведомление" message="Изменить данные?" icon="ui-icon-alert" />                        
+                        </p:commandButton>
+                        <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update="gmap">
+                            <p:confirm header="Уведомление" message="Удалить данные?" icon="ui-icon-alert" />        
+                        </p:commandButton>                  
+                    </h:panelGrid> 
+                </p:outputPanel>
+            </p:gmapInfoWindow>
+            
+        </p:gmap>
+        <p:dialog widgetVar="dlg" showEffect="fade" closable="false" >
+
+            <h:panelGrid columns="2" >
+                <p:row>
+                    <p:column>Транспортная подстанция </p:column>
+                </p:row>
+                <p:row>
+                    <p:inputText value="#{gMapsController.transportStation}" />
+                </p:row>
+                <p:row>
+                    <p:column>Номер подстанции </p:column>
+                </p:row>
+                <p:row>
+                    <p:inputText  value="#{gMapsController.numberStation}"/>
+                </p:row>        
+                <p:row>
+                    <p:column>Балансодержатель опоры </p:column>
+                </p:row>
+                <p:row>
+                    <p:selectOneMenu id="pillar_owner" value="#{gMapsController.owner}" style="width:150px" >
+                        <f:selectItems var="st" value="#{gMapsController.pillarOwner}" itemValue="#{st}" itemLabel="#{st.ownerType}"/>
+                    </p:selectOneMenu>        
+                    <!-- 
+                     <p:inputText value="#{gMapsController.owner}" />
+                    
+                    -->
+                </p:row>
+                <p:row>
+                    <p:column>Материал столба </p:column>
+                </p:row>
+                <p:row>
+                    <p:selectOneMenu id="matheriall" value="#{gMapsController.matheriallPillar}" style="width:150px">
+                        <f:selectItems value="#{gMapsController.pillarMaterial}" />
+                    </p:selectOneMenu>                     
+                    <!--
+                    <p:inputText value="#{gMapsController.matheriallPillar}" />
+                    -->
+                </p:row>   
+                <p:row>
+                    <p:column>Тип столба</p:column>
+                </p:row> 
+                <p:row>
+                    <p:selectOneMenu id="pillar_type" value="#{gMapsController.typePillar}" style="width:150px">
+                        <f:selectItems value="#{gMapsController.pillarType}" />
+                    </p:selectOneMenu>     
+                    <!--
+                    <p:inputText value="#{gMapsController.typePillar}" />
+                    -->
+                </p:row>
+                <p:row>
+                    <p:column>Запас кабеля</p:column>
+                </p:row> 
+                <p:row>
+                    <p:inputText value="#{gMapsController.capacityCabel}" />
+                </p:row>  
+               
+            </h:panelGrid>
+                <h:panelGrid columns="2" >
+                    <p:commandButton value="Add" actionListener="#{gMapsController.addMarker}" update="@all" />
+                    <p:commandButton value="Cancel" onclick="return cancel()" />               
+                </h:panelGrid>  
+            <h:inputHidden id="lat" value="#{gMapsController.lat}" />
+            <h:inputHidden id="lng" value="#{gMapsController.lng}" />
+        </p:dialog> 
+        
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Да" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Нет" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>        
+                
+    </h:form>
+
+<script type="text/javascript">
+    var currentMarker = null;  
+    
+ 
+    function handlePointClick(event) {
+        if(currentMarker === null) {
+            document.getElementById('lat').value = event.latLng.lat();
+            document.getElementById('lng').value = event.latLng.lng();
+ 
+            currentMarker = new google.maps.Marker({
+                position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+            });
+ 
+            PF('map').addOverlay(currentMarker);
+            PF('dlg').show();
+        }   
+    }
+ 
+    function cancel() {
+        PF('dlg').hide();
+        currentMarker.setMap(null);
+        currentMarker = null;
+ 
+        return false;
+    }
+    
+    
+</script>        
         <h:form>
             <p:panel id="mainMenuPanel" styleClass="mainMenuPanel">
                 <p:menubar id="mainMenu" styleClass="mainMenu" >

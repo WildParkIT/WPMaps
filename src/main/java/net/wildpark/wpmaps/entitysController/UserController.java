@@ -50,6 +50,17 @@ public class UserController implements Serializable {
             admin.getMessages().add("Created automaticly by system");
             userFacade.create(admin);
             users.add(admin);
+            
+            
+            User admin2 = new User();
+            admin2.setLogin("zekart");
+            admin2.setEmail("zekart22@gmail.com");
+            admin2.setAbout("I`m first user. I`m admin");
+            admin2.setPassword("12344321");
+            admin2.getMessages().add("Created automaticly by system");
+            userFacade.create(admin2);
+            users.add(admin2);           
+            
         }else{
             users=userFacade.findAll();
         }
