@@ -31,7 +31,9 @@ public class Pillar implements Serializable {
     private PillarOwner owner;
     private PillarType type;
     private PillarMaterial matheriallPillar;
-    private LatLng latLng;
+    private Double lat;
+    private Double lng;
+
     
     
     public Pillar() {
@@ -85,20 +87,28 @@ public class Pillar implements Serializable {
         this.matheriallPillar = matheriallPillar;
     }
 
-
-    public LatLng getLatLng() {
-        return latLng;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    
 
     
    @Override
    public String toString() {
-      return "id=" + id + ", transportstation=" + transportstation + ",numbertranspotrstation="+numbertranspotrstation+ ", owner=" + owner + ", type=" + type + ", matheriallPillar="+matheriallPillar + ", LatLng="+latLng.toString();
+      return "id=" + id + ", transportstation=" + transportstation + ",numbertranspotrstation="+numbertranspotrstation+ ", owner=" + owner + ", type=" + type + ", matheriallPillar="+matheriallPillar ;
    }
     
     

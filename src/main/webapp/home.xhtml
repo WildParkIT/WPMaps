@@ -42,44 +42,42 @@
                     </h:panelGrid>
                     <h:panelGrid columns="2" >
                         <p:row>
-                            <h:outputLabel for="station" value="Транспортная подстанция:" />
+                            <h:outputLabel  value="Транспортная подстанция:" />
                         </p:row>
                         <p:row>                            
-                            <p:inplace id="station" editor="true">
-                                <p:inputText value="#{gMapsController.transportStation}" required="true" label="text" />
-                            </p:inplace>                            
+                            <p:outputLabel value="#{gMapsController.selectedPillar.transportstation}"  />    
                         </p:row>
                         <p:row>
-                            <h:outputLabel for="stationNumber" value="Номер подстанции:" />
+                            <h:outputLabel value="Номер подстанции:" />
                         </p:row>
                         <p:row>
-                            <p:inplace id="stationNumber" editor="true">
-                                <p:inputText value="#{gMapsController.numberStation}" required="true" label="text" />
-                            </p:inplace>                             
+
+                            <p:outputLabel value="#{gMapsController.selectedPillar.numbertranspotrstation}"  />
+                           
                         </p:row>        
                         <p:row>
-                            <h:outputLabel for="stationOwner" value="Балансодержатель опоры:" />
+                            <h:outputLabel value="Балансодержатель опоры:" />
                         </p:row>
                         <p:row>
-                            <p:inplace id="stationOwner" editor="true">
-                                <p:inputText value="#{gMapsController.selectedPillar.owner.ownerType}" required="true" label="text" />
-                            </p:inplace>                               
+
+                            <p:outputLabel value="#{gMapsController.selectedPillar.owner.ownerType}"  />
+                          
                         </p:row>
                         <p:row>
-                            <h:outputLabel for="stationMatheriall" value="Материал столба:" />
+                            <h:outputLabel value="Материал столба:" />
                         </p:row>
                         <p:row>
-                            <p:inplace id="stationMatheriall" editor="true">
-                                <p:inputText value="#{gMapsController.selectedPillar.matheriallPillar.pillarMaterial}" required="true" label="text" />
-                            </p:inplace>                            
+
+                            <p:outputLabel value="#{gMapsController.selectedPillar.matheriallPillar.pillarMaterial}"  />
+                         
                         </p:row>                                           
                         <p:row>
-                            <h:outputLabel for="stationType" value="Тип столба:" />
+                            <h:outputLabel value="Тип столба:" />
                         </p:row>
                         <p:row>
-                            <p:inplace id="stationType" editor="true">
-                                <p:inputText value="#{gMapsController.selectedPillar.type.pilarType}" required="true" label="text" />
-                            </p:inplace>                                                        
+
+                            <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />
+                                                      
                         </p:row>   
                         <p:row>
                             <p:column>Запас кабеля</p:column>
@@ -90,9 +88,6 @@
                     </h:panelGrid>
 
                     <h:panelGrid columns="2" >
-                        <p:commandButton value="Редактировать" actionListener="#{gMapsController.changePillar}" update="gmap">                        
-                            <p:confirm header="Уведомление" message="Изменить данные?" icon="ui-icon-alert" />                        
-                        </p:commandButton>
                         <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update="gmap">
                             <p:confirm header="Уведомление" message="Удалить данные?" icon="ui-icon-alert" />        
                         </p:commandButton>                  
@@ -117,7 +112,7 @@
                     <p:inputText  value="#{gMapsController.numberStation}"/>
                 </p:row>        
                 <p:row>
-                    <p:column>Балансодержатель опоры </p:column>
+                    <p:column><p:outputLabel for="pillar_owner" value="Балансодержатель опоры" /> </p:column>
                 </p:row>
                 <p:row>
                     <p:selectOneMenu id="pillar_owner" value="#{gMapsController.owner}" style="width:150px" >

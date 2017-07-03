@@ -37,15 +37,16 @@ public class GMapsController implements Serializable {
     private Marker marker;
     private String transportStation;
     private int numberStation;
-    private String owner;
-    private String matheriallPillar;
-    private String typePillar;
+    private PillarOwner owner;
+    private PillarMaterial matheriallPillar;
+    private PillarType typePillar;
     private int id;
     private Boolean capacityCabel;
        
     private double lat;     
     private double lng;
     private List<Pillar> list; 
+
     Pillar pillar = new Pillar();
     Pillar selectedPillar = new Pillar();
    
@@ -55,9 +56,9 @@ public class GMapsController implements Serializable {
         model = new DefaultMapModel();
         list = mapFacade.findAll();
      
-//        for (Pillar e:list) {
-//            model.addOverlay(new Marker(e.getLatLng(),String.valueOf(e.getId()),e,"../resources/marker/Empty_el_tr.png"));    
-//        }        
+        for (Pillar e:list) {
+            model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/Empty_el_tr.png"));    
+        }        
         
         
 
@@ -75,39 +76,46 @@ public class GMapsController implements Serializable {
     }        
     
     public void addMarker() {
-//        pillar.setLat(lat);
-//        pillar.setLng(lng);
+        
+        pillar.setLat(lat);
+        pillar.setLng(lng);
         pillar.setNumbertranspotrstation(numberStation);
-//        pillar.setTransportstation(transportStation);
-//        pillar.setOwner(owner);
-//        pillar.setType(typePillar);
+        pillar.setTransportstation(transportStation);
+        pillar.setOwner(owner);
+        pillar.setType(typePillar);
 //          pillar.setMatheriallPillar(matheriallPillar);
 
-        //pillar.setLatLng(lat,lng);
-//        System.out.println("Station" + transportStation + " number: " +numberStation + " owner  "+owner+ "   " +lat + "And" + lng);      
+        //pillar.setLatLng(latLng);      
         mapFacade.create(pillar);
         
         id = pillar.getId();
-        marker = new Marker(new LatLng(lat, lng), transportStation,id,"../resources/marker/Empty_el_tr.png" );
+        marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
         model.addOverlay(marker);       
         //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
     }
     
     public void deleteMarker(){        
-        id = (Integer) marker.getData();
-        System.out.println(id);
-        pillar = mapFacade.find(id);
-        if(pillar != null){            
-            mapFacade.remove(pillar);
-            init();
-        }        
+//        selectedPillar = (Pillar) marker.getData();
+//        System.out.println("Select id  " + selectedPillar.getId());
+//        pillar = mapFacade.find(id);
+//        if(pillar != null){            
+//            mapFacade.remove(pillar);
+//            init();
+//        }
+        
         //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("gmap");
     }
        
 
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
-        //selectedPillar = (Pillar) marker.getData();
+        selectedPillar = (Pillar) marker.getData();
+        
+        id = selectedPillar.getId();
+        
+
+        
+        
     }
     
     
@@ -133,6 +141,7 @@ public class GMapsController implements Serializable {
         this.model = model;
     }
  
+    
     
 //    public MapModel getHomeModel(){
 //        return getLoginModel();
@@ -174,29 +183,31 @@ public class GMapsController implements Serializable {
         this.numberStation = numberStation;
     }
 
-    public String getOwner() {
+    public PillarOwner getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(PillarOwner owner) {
         this.owner = owner;
     }
 
-    public String getMatheriallPillar() {
+    public PillarMaterial getMatheriallPillar() {
         return matheriallPillar;
     }
 
-    public void setMatheriallPillar(String matheriallPillar) {
+    public void setMatheriallPillar(PillarMaterial matheriallPillar) {
         this.matheriallPillar = matheriallPillar;
     }
 
-    public String getTypePillar() {
+    public PillarType getTypePillar() {
         return typePillar;
     }
 
-    public void setTypePillar(String typePillar) {
+    public void setTypePillar(PillarType typePillar) {
         this.typePillar = typePillar;
     }
+
+
 
     public Boolean getCapacityCabel() {
         return capacityCabel;
