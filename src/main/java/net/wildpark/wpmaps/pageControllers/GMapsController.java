@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
 import net.wildpark.wpmaps.enums.PillarMaterial;
 import net.wildpark.wpmaps.facades.MapFacade;
@@ -83,25 +84,24 @@ public class GMapsController implements Serializable {
         pillar.setTransportstation(transportStation);
         pillar.setOwner(owner);
         pillar.setType(typePillar);
-//          pillar.setMatheriallPillar(matheriallPillar);
+        pillar.setMatheriallPillar(matheriallPillar);
 
-        //pillar.setLatLng(latLng);      
         mapFacade.create(pillar);
         
         id = pillar.getId();
         marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
         model.addOverlay(marker);       
-        //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
     }
     
     public void deleteMarker(){        
 //        selectedPillar = (Pillar) marker.getData();
 //        System.out.println("Select id  " + selectedPillar.getId());
-//        pillar = mapFacade.find(id);
-//        if(pillar != null){            
-//            mapFacade.remove(pillar);
-//            init();
-//        }
+        pillar = mapFacade.find(selectedPillar.getId());
+        if(pillar != null){            
+            mapFacade.remove(pillar);
+            init();
+        }
         
         //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("gmap");
     }
@@ -110,12 +110,7 @@ public class GMapsController implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
         selectedPillar = (Pillar) marker.getData();
-        
-        id = selectedPillar.getId();
-        
 
-        
-        
     }
     
     
@@ -131,7 +126,7 @@ public class GMapsController implements Serializable {
 //            }
 //        }                
     }
-    
+       
     
     public MapModel getModel() {
         return model;
@@ -141,12 +136,6 @@ public class GMapsController implements Serializable {
         this.model = model;
     }
  
-    
-    
-//    public MapModel getHomeModel(){
-//        return getLoginModel();
-//    }   
-    
     public Marker getMarker() {
         return marker;
     }       

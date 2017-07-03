@@ -90,7 +90,8 @@
                     <h:panelGrid columns="2" >
                         <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update="gmap">
                             <p:confirm header="Уведомление" message="Удалить данные?" icon="ui-icon-alert" />        
-                        </p:commandButton>                  
+                        </p:commandButton>  
+                        <p:commandButton value="Редактировать" action="pillarChange.xhtml?faces-redirect=true"/>                    
                     </h:panelGrid> 
                 </p:outputPanel>
             </p:gmapInfoWindow>
@@ -128,7 +129,7 @@
                 </p:row>
                 <p:row>
                     <p:selectOneMenu id="matheriall" value="#{gMapsController.matheriallPillar}" style="width:150px">
-                        <f:selectItems value="#{gMapsController.pillarMaterial}" />
+                        <f:selectItems var="mat"  value="#{gMapsController.pillarMaterial}" itemValue="#{mat}" itemLabel="#{mat.pillarMaterial}" />
                     </p:selectOneMenu>                     
                     <!--
                     <p:inputText value="#{gMapsController.matheriallPillar}" />
@@ -139,7 +140,7 @@
                 </p:row> 
                 <p:row>
                     <p:selectOneMenu id="pillar_type" value="#{gMapsController.typePillar}" style="width:150px">
-                        <f:selectItems value="#{gMapsController.pillarType}" />
+                        <f:selectItems var="pl" value="#{gMapsController.pillarType}" itemValue="#{pl}" itemLabel="#{pl.pilarType}" />
                     </p:selectOneMenu>     
                     <!--
                     <p:inputText value="#{gMapsController.typePillar}" />
@@ -168,47 +169,62 @@
                 
     </h:form>
 
-<script type="text/javascript">
-    var currentMarker = null;  
-    
- 
-    function handlePointClick(event) {
-        if(currentMarker === null) {
-            document.getElementById('lat').value = event.latLng.lat();
-            document.getElementById('lng').value = event.latLng.lng();
- 
-            currentMarker = new google.maps.Marker({
-                position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
-            });
- 
-            PF('map').addOverlay(currentMarker);
-            PF('dlg').show();
-        }   
-    }
- 
-    function cancel() {
-        PF('dlg').hide();
-        currentMarker.setMap(null);
-        currentMarker = null;
- 
-        return false;
-    }
-    
-    
-</script>        
+    <script type="text/javascript">
+        var currentMarker = null;  
+
+
+        function handlePointClick(event) {
+            if(currentMarker === null) {
+                document.getElementById('lat').value = event.latLng.lat();
+                document.getElementById('lng').value = event.latLng.lng();
+
+                currentMarker = new google.maps.Marker({
+                    position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                });
+
+                PF('map').addOverlay(currentMarker);
+                PF('dlg').show();
+            }   
+        }
+
+        function cancel() {
+            PF('dlg').hide();
+            currentMarker.setMap(null);
+            currentMarker = null;
+
+            return false;
+        }
+
+
+    </script>        
         <h:form>
-            <p:panel id="mainMenuPanel" styleClass="mainMenuPanel">
+
+            <p:panel id="historyMenuPanel" styleClass="historyMenuPanel" header="Horizontal Toggle" toggleable="true" toggleOrientation="horizontal">
+                           <!--
+                <p:commandButton value="Show" onclick="PF('bar').show()" type="button" icon="ui-icon-arrow-1-s"/>
+                <p:commandButton value="Hide" onclick="PF('bar').hide()" type="button" icon="ui-icon-arrow-1-n"/>
+                
                 <p:menubar id="mainMenu" styleClass="mainMenu" >
                     <p:submenu label="Объект" icon="ui-icon-document">
                         <p:submenu label="Новый" icon="ui-icon-contact">
                             <p:menuitem value="Мастер" icon="ui-icon-star" action="#"/>
                         </p:submenu>
                     </p:submenu>
+                    <p:submenu label="Объект" icon="ui-icon-document">
+                        <p:submenu label="Новый" icon="ui-icon-contact">
+                            <p:menuitem value="Мастер" icon="ui-icon-star" action="#"><p:commandButton value="Show" onclick="PF('bar').show()" type="button" icon="ui-icon-arrow-1-s"/></p:menuitem>
+                        </p:submenu>
+                    </p:submenu>  
+                
                 </p:menubar>
-            </p:panel>
-            <p:draggable for="mainMenuPanel" />
-        </h:form>
-
+                            -->  
+                            dfd
+            </p:panel>    
+            <!--
+            <p:draggable for="historyMenuPanel" />       
+            -->
+   
+        </h:form>    
     </h:body>
 </html>
 
