@@ -10,10 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import net.wildpark.wpmaps.enums.PillarMaterial;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
-import org.primefaces.model.map.LatLng;
 
 /**
  *
@@ -21,8 +23,12 @@ import org.primefaces.model.map.LatLng;
  */
 
 @Entity
-public class Pillar implements Serializable {
+@Table(name = "pillar")
 
+
+public class Pillar implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -33,6 +39,13 @@ public class Pillar implements Serializable {
     private PillarMaterial matheriallPillar;
     private Double lat;
     private Double lng;
+    
+    @JoinColumn(name = "CABEL_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Cable cabelId;
+    @JoinColumn(name = "CLUTCH_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Clutch clutchId;
 
     
     
@@ -103,13 +116,26 @@ public class Pillar implements Serializable {
         this.lng = lng;
     }
 
-    
+    public Cable getCabelId() {
+        return cabelId;
+    }
 
+    public void setCabelId(Cable cabelId) {
+        this.cabelId = cabelId;
+    }
+
+    public Clutch getClutchId() {
+        return clutchId;
+    }
+
+    public void setClutchId(Clutch clutchId) {
+        this.clutchId = clutchId;
+    }
     
-   @Override
-   public String toString() {
-      return "id=" + id + ", transportstation=" + transportstation + ",numbertranspotrstation="+numbertranspotrstation+ ", owner=" + owner + ", type=" + type + ", matheriallPillar="+matheriallPillar ;
-   }
-    
+    @Override
+    public String toString() {
+        return "net.wildpark.wpmaps.entitys.Pillar[ id=" + id + " ]";
+    }
+
     
 }

@@ -6,29 +6,76 @@
 package net.wildpark.wpmaps.entitys;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Panker-RDP
+ * @author Zekart
  */
 @Entity
-public class Cable extends AbstractObject implements Serializable {
+@Table(name = "cable")
+@XmlRootElement
+
+public class Cable implements Serializable {
+
+    @JoinTable(name = "clutch_has_cable", joinColumns = {
+        @JoinColumn(name = "cable_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "clutch_ID", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Clutch> clutchCollection;
+
+    @OneToMany(mappedBy = "cabelId")
+    private Collection<Pillar> pillarCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
     private Long id;
-    private String manufacturer;
-    private int cordCout;
-    private List<Long> cords_id;
-    private double cableLenght;
-    private List<Long> couplingsId;
+    @Size(max = 255)
+    @Column(name = "CAPACITY")
+    private String capacity;
+    @Size(max = 255)
+    @Column(name = "INPLACE")
+    private String inplace;
+    @Column(name = "LENGTHCABLE")
+    private Integer lengthcable;
+    @Size(max = 255)
+    @Column(name = "MARKING")
+    private String marking;
+    @Column(name = "MODULECOUNT")
+    private Integer modulecount;
+    @Size(max = 255)
+    @Column(name = "OUTPLACE")
+    private String outplace;
+    @Size(max = 255)
+    @Column(name = "PRODUCTION")
+    private String production;
+    @JoinColumn(name = "FIBER_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Fiber fiberId;
+
+    public Cable() {
+    }
+
+    public Cable(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -36,6 +83,70 @@ public class Cable extends AbstractObject implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getInplace() {
+        return inplace;
+    }
+
+    public void setInplace(String inplace) {
+        this.inplace = inplace;
+    }
+
+    public Integer getLengthcable() {
+        return lengthcable;
+    }
+
+    public void setLengthcable(Integer lengthcable) {
+        this.lengthcable = lengthcable;
+    }
+
+    public String getMarking() {
+        return marking;
+    }
+
+    public void setMarking(String marking) {
+        this.marking = marking;
+    }
+
+    public Integer getModulecount() {
+        return modulecount;
+    }
+
+    public void setModulecount(Integer modulecount) {
+        this.modulecount = modulecount;
+    }
+
+    public String getOutplace() {
+        return outplace;
+    }
+
+    public void setOutplace(String outplace) {
+        this.outplace = outplace;
+    }
+
+    public String getProduction() {
+        return production;
+    }
+
+    public void setProduction(String production) {
+        this.production = production;
+    }
+
+    public Fiber getFiberId() {
+        return fiberId;
+    }
+
+    public void setFiberId(Fiber fiberId) {
+        this.fiberId = fiberId;
     }
 
     @Override
@@ -60,7 +171,25 @@ public class Cable extends AbstractObject implements Serializable {
 
     @Override
     public String toString() {
-        return "net.wildpark.wpmaps.enums.Cable[ id=" + id + " ]";
+        return "net.wildpark.wpmaps.entitys.Cable[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Pillar> getPillarCollection() {
+        return pillarCollection;
+    }
+
+    public void setPillarCollection(Collection<Pillar> pillarCollection) {
+        this.pillarCollection = pillarCollection;
+    }
+
+    @XmlTransient
+    public Collection<Clutch> getClutchCollection() {
+        return clutchCollection;
+    }
+
+    public void setClutchCollection(Collection<Clutch> clutchCollection) {
+        this.clutchCollection = clutchCollection;
     }
     
 }

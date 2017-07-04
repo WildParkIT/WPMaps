@@ -11,9 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
-import net.wildpark.wpmaps.enums.PillarMaterial;
 import net.wildpark.wpmaps.facades.MapFacade;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -23,6 +21,7 @@ import org.primefaces.model.map.Marker;
 
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
+import net.wildpark.wpmaps.enums.PillarMaterial;
 
 /**
  *
@@ -91,7 +90,7 @@ public class GMapsController implements Serializable {
         id = pillar.getId();
         marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
         model.addOverlay(marker);       
-        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
+        //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
     }
     
     public void deleteMarker(){        
@@ -126,7 +125,12 @@ public class GMapsController implements Serializable {
 //            }
 //        }                
     }
-       
+    
+    
+    public String changeInfoPillar(){
+        return"pillarChange.xhtml?faces-redirect=true";
+    }
+    
     
     public MapModel getModel() {
         return model;
