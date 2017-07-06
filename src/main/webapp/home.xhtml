@@ -81,14 +81,7 @@
                             <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />
                                                       
                         </p:row>   
-                        <p:row>
-                            <h:outputLabel value="Муфта:" />
-                        </p:row>
-                        <p:row>
-
-                            <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.info}"  />
-                                                      
-                        </p:row>                       
+                      
                     </h:panelGrid>
 
                     <h:panelGrid columns="3" >
@@ -126,7 +119,7 @@
 
                 <f:facet name="right">
                     <p:menuButton value="Options">
-                        <p:menuitem value="All Pillar"  onclick="PF('dlg1').show();" icon="ui-icon-disk" />
+                        <p:menuitem value="All Pillar"  onclick="PF('dlg1').show();" icon="ui-icon-disk"/>
                         <p:menuitem value="Update" actionListener="#{toolbarView.update}"  icon="ui-icon-arrowrefresh-1-w" />
                         <p:menuitem value="Delete" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />
                         <p:menuitem value="Admin panel" url="http://www.primefaces.org" icon="ui-icon-extlink" />
@@ -138,7 +131,7 @@
         
         
         <p:dialog header="Pillar info" widgetVar="dlg1" modal="true" height="300" width="800">
-                <p:dataTable var="pillar" value="#{pillarChangeController.list}">
+            <p:dataTable var="pillar" value="#{pillarChangeController.list}">
                     <p:column headerText="Id">
                         <h:outputText value="#{pillar.id}" />
                     </p:column>
@@ -166,18 +159,18 @@
                 </p:dataTable>
             </p:dialog>
         
-            <p:dialog header="Detail pillar info" widgetVar="dlg2" modal="true" height="300" width="800">
+            <p:dialog header="Detail pillar info" widgetVar="dlg2" modal="true" height="300" width="800" >
                 <h:panelGrid columns="1" >
                     <p:row>
                         <p:column>Столб</p:column>
                     </p:row>
                 </h:panelGrid>
-                    <h:panelGrid columns="2" >
+                    <h:panelGrid columns="2"  >
                         <p:row>
                             <p:column>Транспортная подстанция </p:column>
                         </p:row>
                         <p:row>
-                            <p:outputLabel value="#{gMapsController.selectedPillar.transportstation}" />
+                            <p:outputLabel value="#{gMapsController.selectedPillar.id}" />
                         </p:row>
                         <p:row>
                             <p:column>Номер подстанции </p:column>

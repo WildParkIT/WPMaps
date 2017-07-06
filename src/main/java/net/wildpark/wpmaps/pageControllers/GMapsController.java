@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
 import net.wildpark.wpmaps.facades.MapFacade;
 import org.primefaces.event.map.OverlaySelectEvent;
@@ -90,20 +91,25 @@ public class GMapsController implements Serializable {
         
         id = pillar.getId();
         marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
-        model.addOverlay(marker);       
-        //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
+        model.addOverlay(marker);
+        list.clear();
+        init();
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
     }
     
     public void deleteMarker(){        
-//        selectedPillar = (Pillar) marker.getData();
+        //selectedPillar = (Pillar) marker.getData();
 //        System.out.println("Select id  " + selectedPillar.getId());
         pillar = mapFacade.find(selectedPillar.getId());
         if(pillar != null){            
             mapFacade.remove(pillar);
+            list.clear();
             init();
+            //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("map");
         }
         
-        //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("gmap");
+        
+        
     }
        
 
@@ -111,6 +117,7 @@ public class GMapsController implements Serializable {
         marker = (Marker) event.getOverlay();   
         selectedPillar = (Pillar) marker.getData();
         System.out.println(selectedPillar.getId());
+        System.out.println(list);
 
     }
     
@@ -216,7 +223,6 @@ public class GMapsController implements Serializable {
     public void setTypePillar(PillarType typePillar) {
         this.typePillar = typePillar;
     }
-
 
 
     public Boolean getCapacityCabel() {
