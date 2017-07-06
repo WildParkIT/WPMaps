@@ -22,6 +22,7 @@ import org.primefaces.model.map.Marker;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
 import net.wildpark.wpmaps.enums.PillarMaterial;
+import org.primefaces.model.map.Polyline;
 
 /**
  *
@@ -42,7 +43,7 @@ public class GMapsController implements Serializable {
     private PillarType typePillar;
     private int id;
     private Boolean capacityCabel;
-       
+
     private double lat;     
     private double lng;
     private List<Pillar> list; 
@@ -109,7 +110,23 @@ public class GMapsController implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
         selectedPillar = (Pillar) marker.getData();
+        System.out.println(selectedPillar.getId());
 
+    }
+    
+    
+    public void connectPillar(){
+        Polyline polyline = new Polyline();
+        LatLng  coord = new LatLng(selectedPillar.getLat(), selectedPillar.getLng());
+        LatLng coord1 = new LatLng(36.885233, 30.702323);
+        polyline.getPaths().add(coord);
+        polyline.getPaths().add(coord1);
+        polyline.setStrokeWeight(1);
+        polyline.setStrokeColor("#FF9900");
+        polyline.setStrokeOpacity(1);
+        
+        model.addOverlay(polyline);
+        
     }
     
     

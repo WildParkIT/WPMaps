@@ -27,6 +27,7 @@ import net.wildpark.wpmaps.enums.PillarType;
 
 
 public class Pillar implements Serializable {
+
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -136,6 +137,10 @@ public class Pillar implements Serializable {
     public String toString() {
         return "net.wildpark.wpmaps.entitys.Pillar[ id=" + id + " ]";
     }
+
+
+
+
 
     
 }

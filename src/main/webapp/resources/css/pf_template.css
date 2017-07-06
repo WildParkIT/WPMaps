@@ -48,19 +48,21 @@ body{
 }
 
 .historyMenuPanel{
-    position:fixed;
-    bottom: 23px;
-    right: 40px;
-    width: 60%;
+    position: fixed;
+    top: -5px;
+    left: 35%;
+    display: block;
+    width: 30%;
     background: transparent;
 }
-
-.ui-panel.historyMenuPanel{
-    padding: 0;
+.ui-panel.historyMenuPanel .ui-widget-content.historyMenuPanel{
+    padding: 0px;
 }
-.ui-panel .ui-panel-titlebar{
-    height: 17px;
-    padding: 0;
+
+.ui-widget-content.historyMenuPanel {
+    border:0px;
+    border-radius: 0px;
+    padding: 0px;
 }
 
 

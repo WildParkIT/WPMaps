@@ -33,6 +33,9 @@ import net.wildpark.wpmaps.enums.FiberType;
 
 public class Fiber implements Serializable {
 
+    @Column(name = "TYPEFIBER")
+    private Integer typefiber;
+
     @JoinTable(name = "fiber_sleeve", joinColumns = {
         @JoinColumn(name = "Fiber_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "sleeve_ID", referencedColumnName = "ID")})
@@ -55,8 +58,6 @@ public class Fiber implements Serializable {
     private String indicationreflector;
     @Column(name = "NUMBER")
     private Integer number;
-    @Column(name = "TYPEFIBER")
-    private FiberType typefiber;
     @JoinColumn(name = "SLEEVE_ID", referencedColumnName = "ID")
     @ManyToOne
     private Sleeve sleeveId;
@@ -102,13 +103,6 @@ public class Fiber implements Serializable {
         this.number = number;
     }
 
-    public FiberType getTypefiber() {
-        return typefiber;
-    }
-
-    public void setTypefiber(FiberType typefiber) {
-        this.typefiber = typefiber;
-    }
 
 
     public Sleeve getSleeveId() {
@@ -169,6 +163,14 @@ public class Fiber implements Serializable {
 
     public void setCableCollection(Collection<Cable> cableCollection) {
         this.cableCollection = cableCollection;
+    }
+
+    public Integer getTypefiber() {
+        return typefiber;
+    }
+
+    public void setTypefiber(Integer typefiber) {
+        this.typefiber = typefiber;
     }
     
 }
