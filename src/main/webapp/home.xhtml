@@ -15,14 +15,16 @@
                 font-family: arial, sans-serif;
                 border-collapse: collapse;
                 width: 100%;
-                margin-top: 25px;
+                
             }
 
             td, th {
                 border: 1px solid #dddddd;
                 text-align: left;
                 padding: 8px;
+                width: 30px;
             }
+            
         </style>
     </h:head>
     <h:body>
@@ -48,43 +50,80 @@
                         </p:row>
                         <p:row>                            
                             <p:outputLabel value="#{gMapsController.selectedPillar.transportstation}"  />    
+                        </p:row>                     
+                    </h:panelGrid>
+    <p:accordionPanel>
+        <p:tab title="Столб" >
+            <h:panelGrid columns="2" width="180">
+                        <p:row>
+                            <h:outputLabel  value="Номер станции:" />
+                        </p:row>
+                        <p:row>                            
+                            <p:outputLabel value="#{gMapsController.selectedPillar.numbertranspotrstation}"  />    
                         </p:row>
                         <p:row>
-                            <h:outputLabel value="Номер подстанции:" />
+                            <h:outputLabel  value="Балансодержатель опоры:" />
                         </p:row>
-                        <p:row>
-
-                            <p:outputLabel value="#{gMapsController.selectedPillar.numbertranspotrstation}"  />
-                           
-                        </p:row>        
-                        <p:row>
-                            <h:outputLabel value="Балансодержатель опоры:" />
-                        </p:row>
-                        <p:row>
-
-                            <p:outputLabel value="#{gMapsController.selectedPillar.owner.ownerType}"  />
-                          
+                        <p:row>                            
+                            <p:outputLabel value="#{gMapsController.selectedPillar.owner.ownerType}"  />    
                         </p:row>
                         <p:row>
                             <h:outputLabel value="Материал столба:" />
                         </p:row>
                         <p:row>
-
-                            <p:outputLabel value="#{gMapsController.selectedPillar.matheriallPillar.pillarMaterial}"  />
-                         
+                            <p:outputLabel value="#{gMapsController.selectedPillar.matheriallPillar.pillarMaterial}"  />                        
                         </p:row>                                           
                         <p:row>
                             <h:outputLabel value="Тип столба:" />
                         </p:row>
                         <p:row>
-
-                            <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />
-                                                      
-                        </p:row>   
-                      
+                            <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />                                                     
+                        </p:row>                        
                     </h:panelGrid>
-
-                    <h:panelGrid columns="3" >
+        </p:tab>
+        <p:tab title="Муфта">
+                    <h:panelGrid columns="2" width="180" >
+                        <p:row>
+                            <h:outputLabel  value="Адрес:" />
+                        </p:row>
+                        <p:row>                            
+                            <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.address}"  />    
+                        </p:row>
+                        <p:row>
+                            <h:outputLabel  value="Количество касет:" />
+                        </p:row>
+                        <p:row>                            
+                            <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.countcassets}"  />    
+                        </p:row>
+                        <p:row>
+                            <h:outputLabel value="Вводы:" />
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.inputs}"  />                        
+                        </p:row>                                           
+                        <p:row>
+                            <h:outputLabel value="Информация:" />
+                        </p:row>
+                        <p:row>
+                            <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.info}"  />                                                     
+                        </p:row>                        
+                    </h:panelGrid>
+        </p:tab>
+        <p:tab title="Кабель">
+            <h:panelGrid columns="2" cellpadding="10" width="200">
+                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                <h:outputText value="After a break of more than 15 years..." />
+            </h:panelGrid>
+        </p:tab>
+        <p:tab title="Волокно">
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                <h:outputText value="After a break of more than 15 years..." />
+            </h:panelGrid>
+        </p:tab>        
+    </p:accordionPanel>
+                    <p:row>
+                <h:panelGrid columns="3" >
                         <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update="gmap">
                             <p:confirm header="Уведомление" message="Удалить данные?" icon="ui-icon-alert" />        
                         </p:commandButton>  
@@ -92,7 +131,9 @@
 
                         <p:commandButton value="Соединить" actionListener="#{gMapsController.connectPillar}" update="gmap" />
 
-                    </h:panelGrid> 
+                </h:panelGrid>                        
+                    </p:row>                    
+ 
                 </p:outputPanel>
             </p:gmapInfoWindow>
             
@@ -131,7 +172,7 @@
         
         
         <p:dialog header="Pillar info" widgetVar="dlg1" modal="true" height="300" width="800">
-            <p:dataTable var="pillar" value="#{pillarChangeController.list}">
+            <p:dataTable var="pillar" value="#{gMapsController.list}">
                     <p:column headerText="Id">
                         <h:outputText value="#{pillar.id}" />
                     </p:column>

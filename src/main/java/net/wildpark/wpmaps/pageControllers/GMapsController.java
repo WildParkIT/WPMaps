@@ -48,6 +48,7 @@ public class GMapsController implements Serializable {
     private double lat;     
     private double lng;
     private List<Pillar> list; 
+   
 
     Pillar pillar = new Pillar();
     Pillar selectedPillar = new Pillar();
@@ -92,9 +93,9 @@ public class GMapsController implements Serializable {
         id = pillar.getId();
         marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
         model.addOverlay(marker);
-        list.clear();
+        //list.clear();
         init();
-        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
+        //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
     }
     
     public void deleteMarker(){        
@@ -103,9 +104,9 @@ public class GMapsController implements Serializable {
         pillar = mapFacade.find(selectedPillar.getId());
         if(pillar != null){            
             mapFacade.remove(pillar);
-            list.clear();
+            //list.clear();
             init();
-            //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("map");
+            //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
         }
         
         
@@ -116,11 +117,12 @@ public class GMapsController implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
         selectedPillar = (Pillar) marker.getData();
-        System.out.println(selectedPillar.getId());
+        
+        System.out.println(selectedPillar.getId() + "And info:    " + pillar);
         System.out.println(list);
 
     }
-    
+   
     
     public void connectPillar(){
         Polyline polyline = new Polyline();
@@ -154,8 +156,7 @@ public class GMapsController implements Serializable {
     public String changeInfoPillar(){
         return"pillarChange.xhtml?faces-redirect=true";
     }
-    
-    
+
     public MapModel getModel() {
         return model;
     }
