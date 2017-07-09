@@ -64,6 +64,22 @@ body{
     border-radius: 0px;
     padding: 0px;
 }
+.legendPanel{
+    position: fixed;
+    top: -5px;
+    right: 0px;
+    display: block;
+    width: 170px;
 
+}
+.ui-panel.legendPanel .ui-widget-content.legendPanel{
+    padding: 0px;
+}
+
+.ui-widget-content.legendPanel {
+    border:0px;
+    border-radius: 0px;
+    padding: 0px;
+}
 
 

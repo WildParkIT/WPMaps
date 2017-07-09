@@ -52,8 +52,8 @@
                             <p:outputLabel value="#{gMapsController.selectedPillar.transportstation}"  />    
                         </p:row>                     
                     </h:panelGrid>
-    <p:accordionPanel>
-        <p:tab title="Столб" >
+                    <p:accordionPanel>
+        <p:tab title="Столб"  >
             <h:panelGrid columns="2" width="180">
                         <p:row>
                             <h:outputLabel  value="Номер станции:" />
@@ -153,25 +153,34 @@
                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                     </span>
 
-                    <p:commandButton type="button" title="Pillar" icon="ui-icon-arrowthickstop-1-n" />
-                    <p:commandButton type="button" title="Scheme" icon="ui-icon-wrench" />
-                    <p:commandButton type="button" title="Print" icon="ui-icon-print" />
+                    <p:commandButton type="button" title="Pillar" icon="ui-icon-arrowthickstop-1-n" />                
                 </f:facet>
 
                 <f:facet name="right">
-                    <p:menuButton value="Options">
+                <p:tieredMenu style="width:140px; height: 20px;">
+                    <p:submenu label="Option" icon="ui-icon-extlink" style="height: 10px; bottom: 5px;">
                         <p:menuitem value="All Pillar"  onclick="PF('dlg1').show();" icon="ui-icon-disk"/>
                         <p:menuitem value="Update" actionListener="#{toolbarView.update}"  icon="ui-icon-arrowrefresh-1-w" />
                         <p:menuitem value="Delete" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />
                         <p:menuitem value="Admin panel" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                    </p:menuButton>
+                        <p:separator /> 
+                        <p:submenu label="Legend">
+                            <p:menuitem onclick="PF('testPanel').show()" value="Show" />
+                            <p:menuitem onclick="PF('testPanel').close()" value="Hide" ajax="true" /> 
+                        </p:submenu>
+                    </p:submenu>
+                </p:tieredMenu>                    
                 </f:facet>
-
             </p:toolbar>
+       
         </p:panel>  
+<p:panel id="button_panel" styleClass="legendPanel" visible="false" widgetVar="testPanel" closable="true" toggleable="true" >
+    <p:graphicImage height="130" width="130" value="../resources/marker/legend.png" />
+</p:panel>
         
+
         
-        <p:dialog header="Pillar info" widgetVar="dlg1" modal="true" height="300" width="800">
+        <p:dialog header="Pillar info" widgetVar="dlg1" modal="false" height="300" width="800">
             <p:dataTable var="pillar" value="#{gMapsController.list}">
                     <p:column headerText="Id">
                         <h:outputText value="#{pillar.id}" />
