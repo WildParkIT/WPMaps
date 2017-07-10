@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
+import net.wildpark.wpmaps.enums.PillarCapacity;
 import net.wildpark.wpmaps.facades.MapFacade;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -42,6 +42,7 @@ public class GMapsController implements Serializable {
     private PillarOwner owner;
     private PillarMaterial matheriallPillar;
     private PillarType typePillar;
+    private PillarCapacity capacityPillar;
     private int id;
     private Boolean capacityCabel;
 
@@ -60,24 +61,10 @@ public class GMapsController implements Serializable {
         list = mapFacade.findAll();
      
         for (Pillar e:list) {
-            model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/Empty_el_tr.png"));    
-        }        
-        
-        
+            model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/"+e.getOwner()+"/"+e.getCapacityPillar()+".png"));    
+        }         
+    }
 
-    }
-       
-    public PillarOwner[] getPillarOwner() {
-        return PillarOwner.values();
-    }
-    
-    public PillarMaterial[] getPillarMaterial() {
-        return PillarMaterial.values();
-    }    
-    public PillarType[] getPillarType() {
-        return PillarType.values();
-    }        
-    
     public void addMarker() {
         
         pillar.setLat(lat);
@@ -87,11 +74,12 @@ public class GMapsController implements Serializable {
         pillar.setOwner(owner);
         pillar.setType(typePillar);
         pillar.setMatheriallPillar(matheriallPillar);
+        pillar.setCapacityPillar(capacityPillar);
 
         mapFacade.create(pillar);
         
         id = pillar.getId();
-        marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/Empty_el_tr.png" );
+        marker = new Marker(new LatLng(lat, lng), String.valueOf(id),pillar,"../resources/marker/"+pillar.getOwner()+"/"+pillar.getCapacityPillar().toString()+".png" );
         model.addOverlay(marker);
         //list.clear();
         init();
@@ -108,9 +96,6 @@ public class GMapsController implements Serializable {
             init();
             //FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("@all");
         }
-        
-        
-        
     }
        
 
@@ -119,7 +104,7 @@ public class GMapsController implements Serializable {
         selectedPillar = (Pillar) marker.getData();
         
         System.out.println(selectedPillar.getId() + "And info:    " + pillar);
-        System.out.println(list);
+        System.out.println(selectedPillar.getOwner());
 
     }
    
@@ -152,6 +137,20 @@ public class GMapsController implements Serializable {
 //        }                
     }
     
+           
+    public PillarOwner[] getPillarOwner() {
+        return PillarOwner.values();
+    }
+    
+    public PillarMaterial[] getPillarMaterial() {
+        return PillarMaterial.values();
+    }    
+    public PillarType[] getPillarType() {
+        return PillarType.values();
+    }
+    public PillarCapacity[] getPillarCapacity() {
+        return PillarCapacity.values();
+    }   
     
     public String changeInfoPillar(){
         return"pillarChange.xhtml?faces-redirect=true";
@@ -207,6 +206,14 @@ public class GMapsController implements Serializable {
 
     public void setOwner(PillarOwner owner) {
         this.owner = owner;
+    }
+
+    public PillarCapacity getCapacityPillar() {
+        return capacityPillar;
+    }
+
+    public void setCapacityPillar(PillarCapacity capacityPillar) {
+        this.capacityPillar = capacityPillar;
     }
 
     public PillarMaterial getMatheriallPillar() {

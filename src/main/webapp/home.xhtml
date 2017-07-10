@@ -371,7 +371,7 @@
                     <p:column>Транспортная подстанция </p:column>
                 </p:row>
                 <p:row>
-                    <p:inputText value="#{gMapsController.transportStation}" />
+                    <p:inputText value="#{gMapsController.transportStation}" />               
                 </p:row>
                 <p:row>
                     <p:column>Номер подстанции </p:column>
@@ -417,7 +417,9 @@
                     <p:column>Запас кабеля</p:column>
                 </p:row> 
                 <p:row>
-                    <p:inputText value="#{gMapsController.capacityCabel}" />
+                    <p:selectOneMenu id="pillar_capacity" value="#{gMapsController.capacityPillar}" style="width:150px">
+                        <f:selectItems var="cp" value="#{gMapsController.pillarCapacity}" itemValue="#{cp}" itemLabel="#{cp.capacity_pillar}" />
+                    </p:selectOneMenu> 
                 </p:row>  
                
             </h:panelGrid>

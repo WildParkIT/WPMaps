@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import net.wildpark.wpmaps.enums.PillarCapacity;
 import net.wildpark.wpmaps.enums.PillarMaterial;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
@@ -38,6 +39,7 @@ public class Pillar implements Serializable {
     private PillarOwner owner;
     private PillarType type;
     private PillarMaterial matheriallPillar;
+    private PillarCapacity capacityPillar;
     private Double lat;
     private Double lng;
     
@@ -116,6 +118,16 @@ public class Pillar implements Serializable {
     public void setLng(Double lng) {
         this.lng = lng;
     }
+
+    public PillarCapacity getCapacityPillar() {
+        return capacityPillar;
+    }
+
+    public void setCapacityPillar(PillarCapacity capacityPillar) {
+        this.capacityPillar = capacityPillar;
+    }
+    
+    
 
     public Cable getCabelId() {
         return cabelId;

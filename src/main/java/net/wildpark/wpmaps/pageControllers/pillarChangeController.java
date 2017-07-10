@@ -13,9 +13,6 @@ import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import net.wildpark.wpmaps.entitys.Pillar;
 import net.wildpark.wpmaps.facades.MapFacade;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.Marker;
 
 /**
  *
