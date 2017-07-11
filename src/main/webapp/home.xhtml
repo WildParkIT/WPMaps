@@ -30,7 +30,7 @@
     <h:body>
     <h:form id="form" prependId="false">
         
-        
+        <p:growl id="messages" showDetail="true"  sticky="true" />
         <p:gmap id ="gmap" center="46.968687,31.9790294" zoom="17" type="terrain" model="#{gMapsController.model}"                 
                 style="width: 100vw;height: 100vh;" onPointClick="handlePointClick(event);" widgetVar="map">
             
@@ -124,12 +124,12 @@
     </p:accordionPanel>
                     <p:row>
                 <h:panelGrid columns="3" >
-                        <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update="gmap">
+                        <p:commandButton value="Удалить" actionListener="#{gMapsController.deleteMarker}" update=":gmap">
                             <p:confirm header="Уведомление" message="Удалить данные?" icon="ui-icon-alert" />        
                         </p:commandButton>  
                         <p:commandButton value="инфо" onclick="PF('dlg2').show();"/>    
 
-                        <p:commandButton value="Соединить" actionListener="#{gMapsController.connectPillar}" update="gmap" />
+                        <p:commandButton value="Соединить" actionListener="#{gMapsController.connectPillar}" update=":messages"/>
 
                 </h:panelGrid>                        
                     </p:row>                    
@@ -439,9 +439,8 @@
     </h:form>
 
     <script type="text/javascript">
-        var currentMarker = null;  
-
-
+        var currentMarker = null;
+ 
         function handlePointClick(event) {
             if(currentMarker === null) {
                 document.getElementById('lat').value = event.latLng.lat();
@@ -463,8 +462,7 @@
 
             return false;
         }
-
-
+        
     </script>        
 
 

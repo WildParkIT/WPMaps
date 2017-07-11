@@ -8,9 +8,12 @@ package net.wildpark.wpmaps.pageControllers;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
 import net.wildpark.wpmaps.enums.PillarCapacity;
 import net.wildpark.wpmaps.facades.MapFacade;
@@ -23,6 +26,7 @@ import org.primefaces.model.map.Marker;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
 import net.wildpark.wpmaps.enums.PillarMaterial;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.map.Polyline;
 
 /**
@@ -53,6 +57,8 @@ public class GMapsController implements Serializable {
 
     Pillar pillar = new Pillar();
     Pillar selectedPillar = new Pillar();
+    
+    List<LatLng> coord = new ArrayList<>();
    
 
     @PostConstruct
@@ -105,21 +111,44 @@ public class GMapsController implements Serializable {
         
         System.out.println(selectedPillar.getId() + "And info:    " + pillar);
         System.out.println(selectedPillar.getOwner());
+        
 
     }
    
     
     public void connectPillar(){
         Polyline polyline = new Polyline();
-        LatLng  coord = new LatLng(selectedPillar.getLat(), selectedPillar.getLng());
-        LatLng coord1 = new LatLng(36.885233, 30.702323);
-        polyline.getPaths().add(coord);
-        polyline.getPaths().add(coord1);
-        polyline.setStrokeWeight(1);
+        
+        polyline.setStrokeWeight(2);
         polyline.setStrokeColor("#FF9900");
         polyline.setStrokeOpacity(1);
         
-        model.addOverlay(polyline);
+        coord.add(new LatLng(selectedPillar.getLat(), selectedPillar.getLng()));
+
+        
+//        LatLng  coord1 = new LatLng(selectedPillar.getLat(), selectedPillar.getLng());
+//        LatLng coord2 = new LatLng(selectedPillar.getLat(), selectedPillar.getLng());
+        
+//        polyline.getPaths().add(coord1);
+//        polyline.getPaths().add(coord2);
+
+        if (coord.size()==2) {
+            for (LatLng en : coord ){
+                System.out.println(en);
+                polyline.getPaths().add(en);
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешно соеденены", null));
+            model.addOverlay(polyline);
+            RequestContext.getCurrentInstance().update("gmap");
+            coord.clear();       
+            //RequestContext.getCurrentInstance().update("form");
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Режим добавления", "Выберите 2 маркер"));            
+        }        
+
+        
+
+        
         
     }
     
