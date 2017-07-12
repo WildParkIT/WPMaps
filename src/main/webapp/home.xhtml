@@ -31,10 +31,11 @@
     <h:form id="form" prependId="false">
         
         <p:growl id="messages" showDetail="true"  sticky="true" />
-        <p:gmap id ="gmap" center="46.968687,31.9790294" zoom="17" type="terrain" model="#{gMapsController.model}"                 
+        <p:gmap id ="gmap" center="46.9422145,31.9990089" zoom="#{gMapsController.zoomMap}" type="terrain" model="#{gMapsController.model}"                 
                 style="width: 100vw;height: 100vh;" onPointClick="handlePointClick(event);" widgetVar="map">
             
             <p:ajax event="overlaySelect" listener="#{gMapsController.onMarkerSelect}" />
+            <p:ajax event="stateChange" listener="#{gMapsController.onStateChange}" />
 
             <p:gmapInfoWindow id="infoWindow" maxWidth="200">
                 <p:outputPanel style="text-align: center; display: block; margin: auto">
@@ -168,6 +169,10 @@
                             <p:menuitem onclick="PF('testPanel').show()" value="Show" />
                             <p:menuitem onclick="PF('testPanel').close()" value="Hide" ajax="true" /> 
                         </p:submenu>
+                        <p:submenu label="Connections">
+                            <p:menuitem onclick="PF('testPanel').show()" value="Show" />
+                            <p:menuitem onclick="PF('testPanel').close()" value="Hide" ajax="true" /> 
+                        </p:submenu>                        
                     </p:submenu>
                 </p:tieredMenu>                    
                 </f:facet>
@@ -464,8 +469,33 @@
         }
         
     </script>        
+<script type="text/javascript">
+    if (navigator.geolocation) {
+        checkGeolocationByHTML5();
+    } else {
+        checkGeolocationByLoaderAPI(); // HTML5 not supported! Fall back to Loader API.
+    }
 
+    function checkGeolocationByHTML5() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            setMapCenter(position.coords.latitude, position.coords.longitude);
+        }, function() {
+            checkGeolocationByLoaderAPI(); // Error! Fall back to Loader API.
+        });
+    }
 
+    function checkGeolocationByLoaderAPI() {
+        if (google.loader.ClientLocation) {
+            setMapCenter(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+        } else {
+            // Unsupported! Show error/warning?
+        }
+    }
+
+    function setMapCenter(latitude, longitude) {
+        gmap.getMap().setCenter(new google.maps.LatLng(latitude, longitude));
+    }
+</script>        
     </h:body>
 </html>
 

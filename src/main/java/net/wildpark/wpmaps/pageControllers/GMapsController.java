@@ -22,12 +22,13 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
-
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
 import net.wildpark.wpmaps.enums.PillarMaterial;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.Polyline;
+
 
 /**
  *
@@ -49,26 +50,40 @@ public class GMapsController implements Serializable {
     private PillarCapacity capacityPillar;
     private int id;
     private Boolean capacityCabel;
+    
+    private int zoomMap = 8;
+    private boolean showMarker = false; 
+    
 
     private double lat;     
     private double lng;
     private List<Pillar> list; 
-   
+      
 
     Pillar pillar = new Pillar();
     Pillar selectedPillar = new Pillar();
     
+    TraceController trace = new TraceController();
+    
     List<LatLng> coord = new ArrayList<>();
+    List<Marker> markers;   
+    LatLng setCenter;
+       
    
-
+//
     @PostConstruct
     public void init() {
         model = new DefaultMapModel();
-        list = mapFacade.findAll();
-     
+        list = mapFacade.findAll();        
         for (Pillar e:list) {
-            model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/"+e.getOwner()+"/"+e.getCapacityPillar()+".png"));    
-        }         
+            model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/"+e.getOwner()+"/"+e.getCapacityPillar()+".png"));                
+        }   
+        markers = model.getMarkers();
+            if (markers != null) {
+                for (Marker m : markers) {
+                    m.setVisible(false);
+                }
+            }
     }
 
     public void addMarker() {
@@ -107,12 +122,7 @@ public class GMapsController implements Serializable {
 
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
-        selectedPillar = (Pillar) marker.getData();
-        
-        System.out.println(selectedPillar.getId() + "And info:    " + pillar);
-        System.out.println(selectedPillar.getOwner());
-        
-
+        selectedPillar = (Pillar) marker.getData();       
     }
    
     
@@ -144,27 +154,39 @@ public class GMapsController implements Serializable {
             //RequestContext.getCurrentInstance().update("form");
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Режим добавления", "Выберите 2 маркер"));            
-        }        
-
-        
-
-        
-        
+        }          
     }
+    
+    
     
     
     public void changePillar(){        
         id = (Integer) marker.getData();
         pillar = mapFacade.find(id);
         
-        System.out.println("Id: " + id);
-//        for (Pillar e : list) {
-//            if(e.getId() == id){
-//                e.setTransportstation();
-//                System.out.println(transportStation);
-//            }
-//        }                
+        System.out.println("Id: " + id);             
     }
+    
+    public void onStateChange(StateChangeEvent event){
+        
+        zoomMap = event.getZoomLevel();  
+        LatLng center = event.getCenter();
+        
+        System.out.println("zoom : " + zoomMap);
+        if(zoomMap == 14){
+            showMarker = true;       
+        }else{
+            showMarker = false;
+        }
+        for (Marker m : markers) {
+            m.setVisible(showMarker);
+        } 
+
+        
+        setCenter = center;
+        System.out.println(center);
+    }
+    
     
            
     public PillarOwner[] getPillarOwner() {
@@ -285,13 +307,15 @@ public class GMapsController implements Serializable {
     public void setSelectedPillar(Pillar selectedPillar) {
         this.selectedPillar = selectedPillar;
     }
-    
-    
-    
-    
-    
-    
-    
 
+    public int getZoomMap() {
+        return zoomMap;
+    }
+
+    public LatLng getSetCenter() {
+        return setCenter;
+    }
+    
+    
     
 }

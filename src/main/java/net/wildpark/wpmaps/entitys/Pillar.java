@@ -6,13 +6,20 @@
 package net.wildpark.wpmaps.entitys;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 import net.wildpark.wpmaps.enums.PillarCapacity;
 import net.wildpark.wpmaps.enums.PillarMaterial;
 import net.wildpark.wpmaps.enums.PillarOwner;
@@ -29,19 +36,38 @@ import net.wildpark.wpmaps.enums.PillarType;
 
 public class Pillar implements Serializable {
 
-    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
     private int id;
-    private String transportstation;
-    private int numbertranspotrstation;
-    private PillarOwner owner;
-    private PillarType type;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "LAT")
+    private double lat;
+    @Column(name = "LNG")
+    private double lng;
+    @Column(name = "MATHERIALLPILLAR")
     private PillarMaterial matheriallPillar;
+    @Column(name = "NUMBERTRANSPOTRSTATION")
+    private int numbertranspotrstation;
+    @Column(name = "OWNER")
+    private PillarOwner owner;
+    @Size(max = 255)
+    @Column(name = "TRANSPORTSTATION")
+    private String transportstation;
+    @Column(name = "TYPE")
+    private PillarType type;
+    @Lob
+    @Column(name = "PHOTOPILLAR")
+    private byte[] photopillar;
+    @Column(name = "CAPACITYPILLAR")
     private PillarCapacity capacityPillar;
-    private Double lat;
-    private Double lng;
+    @OneToMany(mappedBy = "pillarin")
+    private Collection<ConnectionPillar> connectionPillarCollection;
+    @OneToMany(mappedBy = "pillarout")
+    private Collection<ConnectionPillar> connectionPillarCollection1;
     
     @JoinColumn(name = "CABEL_ID", referencedColumnName = "ID")
     @ManyToOne
@@ -149,6 +175,27 @@ public class Pillar implements Serializable {
     public String toString() {
         return "net.wildpark.wpmaps.entitys.Pillar[ id=" + id + " ]";
     }
+
+
+    @XmlTransient
+    public Collection<ConnectionPillar> getConnectionPillarCollection() {
+        return connectionPillarCollection;
+    }
+
+    public void setConnectionPillarCollection(Collection<ConnectionPillar> connectionPillarCollection) {
+        this.connectionPillarCollection = connectionPillarCollection;
+    }
+
+    @XmlTransient
+    public Collection<ConnectionPillar> getConnectionPillarCollection1() {
+        return connectionPillarCollection1;
+    }
+
+    public void setConnectionPillarCollection1(Collection<ConnectionPillar> connectionPillarCollection1) {
+        this.connectionPillarCollection1 = connectionPillarCollection1;
+    }
+
+
 
 
 
