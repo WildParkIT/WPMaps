@@ -67,7 +67,7 @@ public class GMapsController implements Serializable {
     
     List<LatLng> coord = new ArrayList<>();
     List<Marker> markers;   
-    LatLng setCenter;
+
        
    
 //
@@ -149,17 +149,14 @@ public class GMapsController implements Serializable {
             }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешно соеденены", null));
             model.addOverlay(polyline);
-            RequestContext.getCurrentInstance().update("gmap");
-            coord.clear();       
-            //RequestContext.getCurrentInstance().update("form");
+            //RequestContext.getCurrentInstance().update("gmap");
+            coord.clear();                   
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Режим добавления", "Выберите 2 маркер"));            
         }          
     }
     
-    
-    
-    
+
     public void changePillar(){        
         id = (Integer) marker.getData();
         pillar = mapFacade.find(id);
@@ -170,21 +167,21 @@ public class GMapsController implements Serializable {
     public void onStateChange(StateChangeEvent event){
         
         zoomMap = event.getZoomLevel();  
-        LatLng center = event.getCenter();
         
         System.out.println("zoom : " + zoomMap);
-        if(zoomMap == 14){
-            showMarker = true;       
+        if(zoomMap >= 14){
+            showMarker = true;             
         }else{
             showMarker = false;
+          
         }
         for (Marker m : markers) {
             m.setVisible(showMarker);
+
         } 
 
-        
-        setCenter = center;
-        System.out.println(center);
+        System.out.println("marker" + markers);
+
     }
     
     
@@ -312,9 +309,6 @@ public class GMapsController implements Serializable {
         return zoomMap;
     }
 
-    public LatLng getSetCenter() {
-        return setCenter;
-    }
     
     
     
