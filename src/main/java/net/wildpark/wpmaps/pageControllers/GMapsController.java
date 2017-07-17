@@ -25,7 +25,6 @@ import org.primefaces.model.map.Marker;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
 import net.wildpark.wpmaps.enums.PillarMaterial;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.Polyline;
 
@@ -78,12 +77,12 @@ public class GMapsController implements Serializable {
         for (Pillar e:list) {
             model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/"+e.getOwner()+"/"+e.getCapacityPillar()+".png"));                
         }   
-        markers = model.getMarkers();
-            if (markers != null) {
-                for (Marker m : markers) {
-                    m.setVisible(false);
-                }
-            }
+//        markers = model.getMarkers();
+//            if (markers != null) {
+//                for (Marker m : markers) {
+//                    m.setVisible(false);
+//                }
+//            }
     }
 
     public void addMarker() {
