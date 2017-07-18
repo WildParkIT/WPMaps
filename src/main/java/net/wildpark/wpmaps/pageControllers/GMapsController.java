@@ -25,6 +25,7 @@ import org.primefaces.model.map.Marker;
 import net.wildpark.wpmaps.enums.PillarOwner;
 import net.wildpark.wpmaps.enums.PillarType;
 import net.wildpark.wpmaps.enums.PillarMaterial;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.Polyline;
 
@@ -66,8 +67,6 @@ public class GMapsController implements Serializable {
     
     List<LatLng> coord = new ArrayList<>();
     List<Marker> markers;   
-
-       
    
 //
     @PostConstruct
@@ -121,7 +120,7 @@ public class GMapsController implements Serializable {
 
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
-        selectedPillar = (Pillar) marker.getData();       
+        selectedPillar = (Pillar) marker.getData();   
     }
    
     
@@ -146,9 +145,9 @@ public class GMapsController implements Serializable {
                 System.out.println(en);
                 polyline.getPaths().add(en);
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешно соеденены", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Режим соединения", "Успешно"));
             model.addOverlay(polyline);
-            //RequestContext.getCurrentInstance().update("gmap");
+            RequestContext.getCurrentInstance().update("gmap");
             coord.clear();                   
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Режим добавления", "Выберите 2 маркер"));            
@@ -307,8 +306,7 @@ public class GMapsController implements Serializable {
     public int getZoomMap() {
         return zoomMap;
     }
-
+   
     
-    
-    
+  
 }

@@ -83,11 +83,12 @@
                                     <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />                                                     
                                 </p:row> 
                                 <p:row>
-                                    <h:commandLink actionListener="#{clutchDialog.chooseClutch}" action="viewDetailInfo.xhtml" >Запас муфты:</h:commandLink>
-                                                 
+                                    <p:link outcome="clutchInfo" value="Муфта">
+                                        <f:param name="selectClutch" value="#{gMapsController.selectedPillar.id}"/>
+                                    </p:link>              
                                 </p:row>                                
                                 <p:row>
-                                    <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />                                                     
+                                    <p:outputLabel value="#{gMapsController.selectedPillar.capacityPillar.capacity_pillar}"  />                                                     
                                 </p:row>                                
                             </h:panelGrid>
                             
