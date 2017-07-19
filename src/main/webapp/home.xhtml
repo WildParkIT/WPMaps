@@ -83,9 +83,7 @@
                                     <p:outputLabel value="#{gMapsController.selectedPillar.type.pilarType}"  />                                                     
                                 </p:row> 
                                 <p:row>
-                                    <p:link outcome="clutchInfo" value="Муфта">
-                                        <f:param name="selectClutch" value="#{gMapsController.selectedPillar.id}"/>
-                                    </p:link>              
+                                    <p:link outcome="clutchInfo" value="Муфта" ><f:param name = "clutch_id" value = "#{gMapsController.selectedPillar.id}" /></p:link>              
                                 </p:row>                                
                                 <p:row>
                                     <p:outputLabel value="#{gMapsController.selectedPillar.capacityPillar.capacity_pillar}"  />                                                     

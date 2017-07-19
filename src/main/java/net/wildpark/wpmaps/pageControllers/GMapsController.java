@@ -51,7 +51,7 @@ public class GMapsController implements Serializable {
     private int id;
     private Boolean capacityCabel;
     
-    private int zoomMap = 8;
+    private int zoomMap = 13;
     private boolean showMarker = false; 
     
 
@@ -181,8 +181,6 @@ public class GMapsController implements Serializable {
         System.out.println("marker" + markers);
 
     }
-    
-    
            
     public PillarOwner[] getPillarOwner() {
         return PillarOwner.values();

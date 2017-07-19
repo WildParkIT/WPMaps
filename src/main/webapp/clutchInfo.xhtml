@@ -49,14 +49,14 @@
         
         <div class="container">
                 <div>
-                    <p:gmap id ="clutch_gmap" center="46.9615761,32.0031954" zoom="14" type="terrain" model="#{gMapsClutchController.modelClutch}"                 
+                    <p:gmap id ="clutch_gmap" center="#{gMapsClutchController.centerClutch}" zoom="16" type="terrain" model="#{gMapsClutchController.modelClutch}"                 
                             style="width: 100vw;height: 100vh; " onPointClick="handlePointClick(event);" widgetVar="clutch_map" fitBounds="false">
                     </p:gmap>                    
                 </div>
             <div class="right">
                 <h:panelGrid columns="1">
                     <p:row>
-                        <h:outputLabel  value="Муфта: " />
+                        <h:outputLabel  value="Муфта: #{gMapsController.selectedPillar.clutchId.address}" />
                     </p:row>
                 </h:panelGrid>
                 <h:panelGrid columns="2" style="border: none; font: 8pt sans-serif;" >
@@ -73,12 +73,6 @@
                         <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.countcassets}"  />    
                     </p:row>
                     <p:row>
-                        <h:outputLabel  value="Адрес:" />
-                    </p:row>
-                    <p:row>                            
-                        <p:outputLabel value="#{gMapsController.selectedPillar.clutchId.address}"  />    
-                    </p:row>
-                    <p:row>
                         <h:outputLabel value="К-во кабелей + ёмкости:" />
                     </p:row>
                     <p:row>
@@ -93,7 +87,12 @@
                     <p:row>
                         <h:outputLabel value="Состояние:" />              
                     </p:row>                                                               
-                </h:panelGrid>                            
+                </h:panelGrid> 
+                <h:panelGrid columns="1">
+                    <p:row>
+                        <h:outputLabel  value="Кабель " />
+                    </p:row>
+                </h:panelGrid>                
             </div>                
         </div>        
     </h:form>
@@ -113,27 +112,6 @@
                 PF('clutch_map').addOverlay(currentMarker);
                 PF('dlg').show();
             }   
-        }
-
-        function cancel() {
-            PF('dlg').hide();
-            currentMarker.setMap(null);
-            currentMarker = null;
-
-            return false;
-        }
-        
-        var markers = [];
-        function clearMarkers() {
-            for (var i = 0; i &lt; markers.length; i++) {
-                  markers[i].setMap(null);
-             }
-            markers=[];
-        }
-        function addMarkers() {
-            for (var i = 0; i &lt; markers.length; i++) {
-                PF('clutch_map').addOverlay(markers[i]);
-               }
         }
                 
     </script>        
