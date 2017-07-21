@@ -15,6 +15,9 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import net.wildpark.wpmaps.entitys.Pillar;
+import net.wildpark.wpmaps.enums.HouseOwner;
+import net.wildpark.wpmaps.enums.HouseType;
+import net.wildpark.wpmaps.enums.ObjectType;
 import net.wildpark.wpmaps.enums.PillarCapacity;
 import net.wildpark.wpmaps.facades.MapFacade;
 import org.primefaces.event.map.OverlaySelectEvent;
@@ -48,6 +51,10 @@ public class GMapsController implements Serializable {
     private PillarMaterial matheriallPillar;
     private PillarType typePillar;
     private PillarCapacity capacityPillar;
+    private ObjectType obj_type;
+    private HouseType typeOfHouse;
+    private HouseOwner ownerofHouse;
+    
     private int id;
     private Boolean capacityCabel;
     
@@ -58,8 +65,7 @@ public class GMapsController implements Serializable {
     private double lat;     
     private double lng;
     private List<Pillar> list; 
-      
-
+     
     Pillar pillar = new Pillar();
     Pillar selectedPillar = new Pillar();
     
@@ -76,12 +82,6 @@ public class GMapsController implements Serializable {
         for (Pillar e:list) {
             model.addOverlay(new Marker(new LatLng(e.getLat(), e.getLng()),String.valueOf(e.getId()),e,"../resources/marker/"+e.getOwner()+"/"+e.getCapacityPillar()+".png"));                
         }   
-//        markers = model.getMarkers();
-//            if (markers != null) {
-//                for (Marker m : markers) {
-//                    m.setVisible(false);
-//                }
-//            }
     }
 
     public void addMarker() {
@@ -120,7 +120,8 @@ public class GMapsController implements Serializable {
 
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();   
-        selectedPillar = (Pillar) marker.getData();   
+        selectedPillar = (Pillar) marker.getData(); 
+        System.out.println("go");
     }
    
     
@@ -180,6 +181,16 @@ public class GMapsController implements Serializable {
 
         System.out.println("marker" + markers);
 
+    }
+    
+    public HouseType[] getHouseType() {
+        return HouseType.values();
+    }
+    public HouseOwner[] getHouseOwner() {
+        return HouseOwner.values();
+    }    
+    public ObjectType[] getObjectType() {
+        return ObjectType.values();
     }
            
     public PillarOwner[] getPillarOwner() {
@@ -304,6 +315,35 @@ public class GMapsController implements Serializable {
     public int getZoomMap() {
         return zoomMap;
     }
+
+    public ObjectType getObj_type() {
+        return obj_type;
+    }
+
+    public void setObj_type(ObjectType obj_type) {
+        this.obj_type = obj_type;
+    }
+
+    public HouseType getTypeOfHouse() {
+        return typeOfHouse;
+    }
+
+    public void setTypeOfHouse(HouseType typeOfHouse) {
+        this.typeOfHouse = typeOfHouse;
+    }
+
+    public HouseOwner getOwnerofHouse() {
+        return ownerofHouse;
+    }
+
+    public void setOwnerofHouse(HouseOwner ownerofHouse) {
+        this.ownerofHouse = ownerofHouse;
+    }
+
+
+
+    
+    
    
     
   
