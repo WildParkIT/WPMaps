@@ -6,121 +6,68 @@
 package net.wildpark.wpmaps.entitys;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import net.wildpark.wpmaps.enums.FiberType;
 
 /**
  *
  * @author Zekart
  */
 @Entity
-@Table(name = "fiber")
-@XmlRootElement
-
 public class Fiber implements Serializable {
-
-    @Column(name = "TYPEFIBER")
-    private Integer typefiber;
-
-    @JoinTable(name = "fiber_sleeve", joinColumns = {
-        @JoinColumn(name = "Fiber_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "sleeve_ID", referencedColumnName = "ID")})
-    @ManyToMany
-    private Collection<Sleeve> sleeve1Collection;
-    @OneToMany(mappedBy = "fiberId")
-    private Collection<Cable> cableCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID")
-    private Integer id;
-    @Size(max = 255)
-    @Column(name = "ADDRESSOWNER")
-    private String addressowner;
-    @Size(max = 255)
-    @Column(name = "INDICATIONREFLECTOR")
-    private String indicationreflector;
-    @Column(name = "NUMBER")
-    private Integer number;
-    @JoinColumn(name = "SLEEVE_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private Sleeve sleeveId;
-    @OneToMany(mappedBy = "fiberId")
-    private Collection<Sleeve> sleeveCollection;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String addressOwner;
+    private String indicationReflector;
+    private int numberFiber;
+    private int typeFiber; 
 
-    public Fiber() {
-    }
-
-    public Fiber(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getAddressowner() {
-        return addressowner;
+    public String getAddressOwner() {
+        return addressOwner;
     }
 
-    public void setAddressowner(String addressowner) {
-        this.addressowner = addressowner;
+    public void setAddressOwner(String addressOwner) {
+        this.addressOwner = addressOwner;
     }
 
-    public String getIndicationreflector() {
-        return indicationreflector;
+    public String getIndicationReflector() {
+        return indicationReflector;
     }
 
-    public void setIndicationreflector(String indicationreflector) {
-        this.indicationreflector = indicationreflector;
+    public void setIndicationReflector(String indicationReflector) {
+        this.indicationReflector = indicationReflector;
     }
 
-    public Integer getNumber() {
-        return number;
+    public int getNumberFiber() {
+        return numberFiber;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setNumberFiber(int numberFiber) {
+        this.numberFiber = numberFiber;
     }
 
-
-
-    public Sleeve getSleeveId() {
-        return sleeveId;
+    public int getTypeFiber() {
+        return typeFiber;
     }
 
-    public void setSleeveId(Sleeve sleeveId) {
-        this.sleeveId = sleeveId;
+    public void setTypeFiber(int typeFiber) {
+        this.typeFiber = typeFiber;
     }
-
-    @XmlTransient
-    public Collection<Sleeve> getSleeveCollection() {
-        return sleeveCollection;
-    }
-
-    public void setSleeveCollection(Collection<Sleeve> sleeveCollection) {
-        this.sleeveCollection = sleeveCollection;
-    }
+    
+    
 
     @Override
     public int hashCode() {
@@ -144,33 +91,7 @@ public class Fiber implements Serializable {
 
     @Override
     public String toString() {
-        return "net.wildpark.wpmaps.entitys.Fiber_1[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Sleeve> getSleeve1Collection() {
-        return sleeve1Collection;
-    }
-
-    public void setSleeve1Collection(Collection<Sleeve> sleeve1Collection) {
-        this.sleeve1Collection = sleeve1Collection;
-    }
-
-    @XmlTransient
-    public Collection<Cable> getCableCollection() {
-        return cableCollection;
-    }
-
-    public void setCableCollection(Collection<Cable> cableCollection) {
-        this.cableCollection = cableCollection;
-    }
-
-    public Integer getTypefiber() {
-        return typefiber;
-    }
-
-    public void setTypefiber(Integer typefiber) {
-        this.typefiber = typefiber;
+        return "Fiber[" + id + ","+addressOwner+","+indicationReflector+","+numberFiber+","+typeFiber+" ]";
     }
     
 }

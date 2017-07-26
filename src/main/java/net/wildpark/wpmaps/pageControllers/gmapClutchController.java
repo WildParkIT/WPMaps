@@ -14,7 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import net.wildpark.wpmaps.entitys.Pillar;
+import net.wildpark.wpmaps.entitys.Clutch;
 import net.wildpark.wpmaps.facades.MapFacade;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -33,30 +33,30 @@ public class gmapClutchController implements Serializable{
     @EJB
     private MapFacade mapClutchFacade;
     private MapModel modelClutch;
-    private List<Pillar> list; 
+    private List<Clutch> list; 
     private Integer data = 0;
     private EntityManager manager;
-    Pillar selectedPillar = new Pillar();
+    Clutch selectedPillar = new Clutch();
     
     private String centerClutch;
         
-    @PostConstruct
-    public void init() {       
-        modelClutch = new DefaultMapModel();
-        list = mapClutchFacade.findAll();
-
-        data = showResult();
-
-        for (Pillar pil : list) {
-            if(pil.getId() == data){
-                modelClutch.addOverlay(new Marker(new LatLng(pil.getLat(), pil.getLng()),String.valueOf(pil.getId()),pil,"../resources/marker/"+pil.getOwner()+"/"+pil.getCapacityPillar()+".png"));                
-                centerClutch =  setCenter(pil.getLat(), pil.getLng());
-            }
-        }       
-        
-        System.out.println(selectedPillar.getId());
-
-    }
+//    @PostConstruct
+//    public void init() {       
+//        modelClutch = new DefaultMapModel();
+//        list = mapClutchFacade.findAll();
+//
+//        data = showResult();
+//
+//        for (Pillar pil : list) {
+//            if(pil.getId() == data){
+//                modelClutch.addOverlay(new Marker(new LatLng(pil.getLat(), pil.getLng()),String.valueOf(pil.getId()),pil,"../resources/marker/"+pil.getOwner()+"/"+pil.getCapacityPillar()+".png"));                
+//                centerClutch =  setCenter(pil.getLat(), pil.getLng());
+//            }
+//        }       
+//        
+//        System.out.println(selectedPillar.getId());
+//
+//    }
     
     public String setCenter(Double lat, Double lng){
         centerClutch = lat +","+lng;
@@ -71,8 +71,8 @@ public class gmapClutchController implements Serializable{
       return data;
    } 
    
-    public Pillar findPillar(int id){
-        return manager.find(Pillar.class, id);
+    public Clutch findPillar(int id){
+        return manager.find(Clutch.class, id);
     }
       
    
@@ -92,11 +92,11 @@ public class gmapClutchController implements Serializable{
         this.modelClutch = modelClutch;
     }
 
-    public List<Pillar> getList() {
+    public List<Clutch> getList() {
         return list;
     }
 
-    public void setList(List<Pillar> list) {
+    public void setList(List<Clutch> list) {
         this.list = list;
     }
     
